@@ -291,17 +291,19 @@ require(['vs/editor/editor.main'], async function () {
         const functionNameRegex = /^(?:VV\.Form\.(?:Template|Global)\.(\w+)|(\w+))/;
         const parametersRegex = /\((.*)\)/;
         const codeRegex = /{((?:[^{}]+|\{(?:[^{}]+|\{[^{}]*\})*\})*)}\s*;?/;
-        const groupRegex = /^VV\.Form\.(Template|Global)/;
 
         const matches = editorValue.match(functionNameRegex);
         const parameterMatches = editorValue.match(parametersRegex);
         const codeMatches = editorValue.match(codeRegex);
-        const groupMatches = editorValue.match(groupRegex);
 
-        const scriptName = Array.isArray(matches) ? matches[0] : null;
+        let scriptName;
+        if (matches[1]) {
+            scriptName = matches[1];
+        } else if (matches[0]) {
+            scriptName = matches[0];
+        }
         const scriptParameters = Array.isArray(parameterMatches) ? parameterMatches[1] : null;
         const code = Array.isArray(codeMatches) ? codeMatches[1] : '';
-        const group = Array.isArray(groupMatches) ? groupMatches[1].toLowerCase() : 'form';
 
         if (!scriptName || !scriptParameters) {
             console.error('Invalid Script name or parameters');
@@ -415,21 +417,19 @@ require(['vs/editor/editor.main'], async function () {
         });
     }
 
-    function executeScriptInFormTab(functionName, args, code, group) {
+    function executeScriptInFormTab(scriptContent) {
         chrome.storage.local.get(['tabId'], function(result) {
             if (result.tabId) {
-                chrome.tabs.sendMessage(result.tabId, {
-                    action: 'executeFunction',
-                    name: functionName,
-                    args,
-                    code,
-                    group,
+                chrome.runtime.sendMessage({
+                    action: 'executeScript',
+                    tabId: result.tabId,
+                    script: scriptContent
                 });
             } else {
                 console.error('No tabId found in storage');
             }
         });
-    }   
+    }
 
     settingsButton.addEventListener('click', openSettingsModal);
     cancelSettingsButton.addEventListener('click', closeSettingsModal);

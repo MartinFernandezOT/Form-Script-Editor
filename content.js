@@ -20,21 +20,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         return true;
     }
 
-    if (request.action === 'executeFunction') {
-        if (request.name && request.group) {
-            const fn = new Function(request.args, request.code);
-
-            switch (request.group) {
-                case 'form':
-                    window[request.name] = fn;
-                    break;
-                case 'template':
-                    window.VV.Form.Template[request.name] = fn;
-                    break;
-                case 'global':
-                    window.VV.Form.Global[request.name] = fn;
-                    break;
-            }
-        }
+    if (request.action === 'executeScript') {
+        eval(request.script);
     }
 });
