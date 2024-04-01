@@ -1,0 +1,14 @@
+.file-selected {
+    background-color: #2196f3;
+    color: white;
+}
+
+.tab-selected {
+    border-color: #2196f3;
+    color: #2196f3;
+}
+
+.tab-disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}

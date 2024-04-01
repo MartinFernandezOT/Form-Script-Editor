@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Script Editor</title>
+    <script src="./tailwindcss-3.4.1.js"></script>
+    <link rel="stylesheet" href="./vs/editor/editor.main.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="flex h-screen">
+    <div id="sidebar" class="w-64 bg-gray-200 p-4 flex-shrink-0 flex flex-col">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-bold">Functions</h2>
+        </div>
+        <div class="flex mb-4">
+            <button id="tab-form" class="px-4 py-2 text-gray-600 border-b-2 border-transparent hover:text-blue-500 focus:outline-none tab-selected tab-disabled">Form</button>
+            <button id="tab-template" class="px-4 py-2 text-gray-600 border-b-2 border-transparent hover:text-blue-500 focus:outline-none tab-disabled">Template</button>
+            <button id="tab-global" class="px-4 py-2 text-gray-600 border-b-2 border-transparent hover:text-blue-500 focus:outline-none tab-disabled">Global</button>
+        </div>
+        <ul id="function-list" class="flex-1 overflow-auto">
+            <li id="error-message" class="text-red-500 py-2 px-4">The extension couldn't load the scripts. Please verify the extension was opened from the form viewer.</li>
+        </ul>
+        <button id="settings-button" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Settings</button>
+        <button id="scripts-modal-button" class="mt-4 bg-blue-500 text-white py-2 px-4 rounded">Scripts</button>
+    </div>
+    <div id="editor" class="flex-1"></div>
+
+    <div class="fixed bottom-0 right-0 m-4 p-2 bg-white shadow-lg rounded-lg z-50">
+        <button id="save-changes" class="bg-blue-500 text-white py-2 px-4 rounded mr-2">Save Changes</button>
+        <button id="restore-changes" class="bg-red-500 text-white py-2 px-4 rounded">Restore to default</button>
+    </div>
+
+    <div id="settings-modal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded shadow-lg">
+            <h2 class="text-xl font-bold mb-4">Settings</h2>
+            <div class="mb-4">
+                <label for="tab-size" class="block mb-2">Tab Size:</label>
+                <select id="tab-size" class="w-full border border-gray-300 rounded py-2 px-3">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="theme" class="block mb-2">Theme:</label>
+                <select id="theme" class="w-full border border-gray-300 rounded py-2 px-3">
+                    <option value="vs">Light</option>
+                    <option value="vs-dark" selected>Dark</option>
+                </select>
+            </div>
+            <div class="flex justify-end">
+                <button id="cancel-settings" class="bg-red-500 text-white py-2 px-4 rounded mr-2">Cancel</button>
+                <button id="save-settings" class="bg-blue-500 text-white py-2 px-4 rounded">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="unsaved-changes-modal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded shadow-lg">
+            <h2 class="text-xl font-bold mb-4">Unsaved Changes</h2>
+            <p class="mb-4">This script has unsaved changes. Do you want to continue without saving?</p>
+            <div class="flex justify-end">
+                <button id="discard-changes" class="bg-red-500 text-white py-2 px-4 rounded mr-2">Discard Changes</button>
+                <button id="cancel-navigation" class="bg-blue-500 text-white py-2 px-4 rounded">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="scripts-modal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded shadow-lg max-w-lg w-full">
+            <h2 class="text-xl font-bold mb-4">Scripts</h2>
+            <div class="overflow-y-auto mb-4" style="max-height: 60vh;">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-2 border-b">Script Name</th>
+                            <th class="px-4 py-2 border-b">Actions</th>
+                            <th class="px-4 py-2 border-b">Active</th>
+                        </tr>
+                    </thead>
+                    <tbody id="script-list" class="divide-y">
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-end">
+                <button id="close-scripts-modal" class="bg-blue-500 text-white py-2 px-4 rounded">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="restore-confirmation-modal" class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded shadow-lg">
+            <h2 class="text-xl font-bold mb-4">Confirm Restore</h2>
+            <p class="mb-4">Do you want to restore the script permanently?</p>
+            <div class="flex justify-end">
+                <button id="cancel-restore" class="bg-gray-500 text-white py-2 px-4 rounded mr-2">Cancel</button>
+                <button id="confirm-restore" class="bg-red-500 text-white py-2 px-4 rounded">Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./vs/loader.js"></script>
+    <script src="./editor.js"></script>
+</body>
+</html>

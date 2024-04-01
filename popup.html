@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Script Editor</title>
+    <script src="./tailwindcss-3.4.1.js"></script>
+    <style>
+        body {
+            width: 300px;
+            height: 200px;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex flex-col items-center justify-center">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full">
+        <div class="flex items-center justify-center mb-6 mt-4">
+            <img src="images/icon.png" alt="Form Script Editor Logo" class="w-10 h-10 mr-2">
+            <h3 class="text-lg font-bold text-gray-800">Form Script Editor</h3>
+        </div>
+        <button id="open-fse"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg w-full mb-4">
+            Open Editor
+        </button>
+        <div class="bg-gray-200 rounded-lg p-4">
+            <p class="text-gray-700 font-medium">Enabled Scripts:</p>
+            <p class="text-gray-800 font-bold text-xl" id="enabled-scripts-count">0</p>
+        </div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+
+</html>
